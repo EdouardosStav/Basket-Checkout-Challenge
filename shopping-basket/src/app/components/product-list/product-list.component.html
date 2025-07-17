@@ -1,0 +1,46 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4">
+    <nav class="flex flex-row justify-end p-4 border-b text-base bg-white shadow-sm">
+      <div class="mr-4 cursor-pointer hover:text-blue-600" (click)="goToCheckout()">
+        Basket Items: {{ totalItems }}
+      </div>
+      <div class="cursor-pointer hover:text-blue-600" (click)="goToCheckout()">
+        Total Price: £{{ totalCost.toFixed(2) }}
+      </div>
+    </nav>
+
+    <div class="py-8">
+      <div *ngFor="let product of products" 
+           class="flex flex-row justify-between items-center p-4 mt-4 bg-white rounded-lg shadow">
+        <div class="w-1/5 font-bold">{{ product.name }}</div>
+        <div class="w-2/5 text-gray-600">{{ product.description }}</div>
+        <div class="w-1/5 font-semibold">£{{ product.price.toFixed(2) }}</div>
+        <button 
+          (click)="addToBasket(product)"
+          [disabled]="getItemQuantity(product.sku) >= product.basketLimit"
+          class="px-4 py-2 text-xs rounded border transition-colors
+                 border-gray-300 bg-gray-200 hover:bg-gray-300 
+                 disabled:opacity-50 disabled:cursor-not-allowed">
+          Add to Basket
+        </button>
+        <button 
+          (click)="removeFromBasket(product)"
+          [disabled]="getItemQuantity(product.sku) === 0"
+          class="px-4 py-2 text-xs rounded border transition-colors
+                 border-red-600 bg-red-500 hover:bg-red-600 text-white 
+                 disabled:opacity-50 disabled:cursor-not-allowed">
+          Remove from Basket
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-row justify-end mt-8 mb-8">
+      <button 
+        (click)="goToCheckout()"
+        class="px-6 py-3 rounded border transition-colors
+               border-blue-600 bg-blue-500 hover:bg-blue-600 text-white">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+</div>

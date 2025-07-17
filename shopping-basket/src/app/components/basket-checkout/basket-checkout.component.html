@@ -1,0 +1,83 @@
+<div class="w-full p-16 text-sm">
+  <nav class="flex flex-row justify-end p-4 border-b text-base">
+    <div class="mr-4">Basket Items: {{ totalItems }}</div>
+  </nav>
+
+  <div class="flex w-full justify-center m-4">
+    <table class="w-3/4 text-center table-fixed">
+      <thead>
+        <tr class="bg-gray-100 border-b border-gray-200 uppercase">
+          <th class="w-1/5 py-2">Product Name</th>
+          <th class="w-1/5 py-2">Selected Quantity</th>
+          <th class="w-1/5 py-2">Unit Price</th>
+          <th class="w-1/5 py-2">Total Price</th>
+          <th class="w-1/5 py-2"></th>
+        </tr>
+      </thead>
+      <tbody class="text-xs">
+        <tr *ngFor="let item of basketItems">
+          <td class="py-4 w-1/6">{{ getProduct(item.sku)?.name }}</td>
+          <td class="w-1/8">
+            <select 
+              name="quantity" 
+              [value]="item.quantity"
+              (change)="updateQuantity(item, $event)">
+              <option 
+                *ngFor="let num of getQuantityOptions(getProduct(item.sku)!)" 
+                [value]="num">
+                {{ num }}
+              </option>
+            </select>
+          </td>
+          <td class="w-1/8">£{{ getProduct(item.sku)?.price?.toFixed(2) }}</td>
+          <td class="w-1/8">£{{ getItemTotal(item).toFixed(2) }}</td>
+          <td>
+            <button 
+              (click)="removeAll(item.sku)"
+              class="text-xs p-2 rounded border border-red-600 bg-red-500 hover:bg-red-600 hover:bg-red-700 text-white">
+              Remove All
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex p-8 flex-row w-full justify-end text-base">
+    Total Price: £{{ totalCost.toFixed(2) }}
+  </div>
+
+  <div class="flex flex-row justify-center items-center">
+    <label>Input Your Card Number</label>
+    <input 
+      [(ngModel)]="cardNumber"
+      (input)="validateCard()"
+      class="w-1/4 p-2 border rounded ml-4"
+      [class.border-gray-400]="!cardNumber || isCardValid"
+      [class.border-red-500]="cardNumber && !isCardValid"
+      type="text" 
+      placeholder="16 digit card number" />
+  </div>
+
+  <div *ngIf="cardNumber && !isCardValid" class="text-red-500 text-center mt-2">
+    Please enter a valid 16-digit card number
+  </div>
+
+  <div *ngIf="showSuccess" class="text-green-500 text-center mt-4 text-lg">
+    Thanks for your order!
+  </div>
+
+  <div class="flex flex-row justify-end mt-6 px-8">
+    <button 
+      (click)="continueShopping()"
+      class="text-s p-2 rounded border border-gray-200 hover:bg-gray-200 hover:bg-gray-300">
+      Continue Shopping
+    </button>
+    <button 
+      (click)="checkout()"
+      [disabled]="!isCardValid || basketItems.length === 0"
+      class="ml-4 text-s p-2 rounded border border-blue-600 bg-blue-500 hover:bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed">
+      Checkout
+    </button>
+  </div>
+</div>
