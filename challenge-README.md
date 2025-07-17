@@ -40,26 +40,6 @@ This project implements a simple shopping basket interface using **Angular 18**,
 
 ---
 
-## 📁 Project Structure
-
-src/
-├── app/
-│ ├── components/
-│ │ ├── product-list/ # Product list view
-│ │ └── basket-checkout/ # Checkout page
-│ ├── services/
-│ │ ├── product.service.ts # Load products from JSON
-│ │ └── basket.service.ts # State management (basket)
-│ ├── models/ # TypeScript interfaces
-│ ├── app.routes.ts # Routing config
-│ ├── app.component.ts # Root standalone component
-├── assets/
-│ └── data/
-│ └── products_sample.json # Provided mock product data
-
-
----
-
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
